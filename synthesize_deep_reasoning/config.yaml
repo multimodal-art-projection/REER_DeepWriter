@@ -1,0 +1,40 @@
+input:
+  file_path: '/path/to/QAcollection.json'
+
+output:
+  file_prefix: '/path/to/output/file/folder/'
+
+processing:
+  stop_thresh: 0.25
+  max_step: 10
+  num_rollouts: 1
+  num_expansion: 2
+
+model:
+  # supported model_types: "hf", "openai", "anthropic", "vllm"
+  model_type: "vllm_server"
+  model_name: "/path/to/Qwen2___5-32B-Instruct"
+  model_url: "http://127.0.0.1:8701/v1/completions"
+  model_args:
+    beamsearch: 0
+    port: 5757
+    max_tokens: 8000
+    top_k: 40
+    top_p: 0.85
+    temperature_range: [0.8, 0.8]
+  prompt_type: "tokenizer"
+
+judge_model:
+  # supported model_types: "hf", "openai", "anthropic", "vllm"
+  use: true
+  model_type: "vllm_server"
+  model_name: "/path/to/model/for/perplexity"
+  model_url: "http://127.0.0.1:8701/v1/completions"
+  model_args:
+    beamsearch: 0
+    port: 5757
+    max_tokens: 100
+    top_k: -1
+    top_p: 1
+    temperature_range: [1.0, 1.0]
+  prompt_type: "tokenizer"
